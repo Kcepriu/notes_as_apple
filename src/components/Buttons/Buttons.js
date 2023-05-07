@@ -1,10 +1,48 @@
+import { useNote } from 'hooks/noteContext';
+import { ListButtons, Button } from './Buttons.styled';
+import { FaEdit } from 'react-icons/fa';
+import { RiDeleteBin5Line } from 'react-icons/ri';
+import { GoPlus } from 'react-icons/go';
+
 const Buttons = () => {
+  const { currentNote, addNote, deleteNote, editNote } = useNote();
+
+  const handlerAdd = () => {
+    addNote();
+  };
+
+  const handlerDelete = () => {
+    if (!currentNote) return;
+    if (window.confirm('Are you sure you want to delete the note?')) {
+      deleteNote(currentNote);
+    }
+  };
+
+  const handlerEdit = () => {
+    if (!currentNote) return;
+    editNote(currentNote);
+  };
+
   return (
-    <div>
-      <button type="button">ADD</button>
-      <button type="button">DELETE</button>
-      <button type="button">EDIT</button>
-    </div>
+    <ListButtons>
+      <li>
+        <Button type="button" onClick={handlerAdd}>
+          <GoPlus size={24} />
+        </Button>
+      </li>
+
+      <li>
+        <Button type="button" disabled={!currentNote} onClick={handlerDelete}>
+          <RiDeleteBin5Line size={24} />
+        </Button>
+      </li>
+
+      <li>
+        <Button type="button" disabled={!currentNote} onClick={handlerEdit}>
+          <FaEdit size={24} />
+        </Button>
+      </li>
+    </ListButtons>
   );
 };
 

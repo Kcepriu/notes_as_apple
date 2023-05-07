@@ -9,6 +9,7 @@ function App() {
       <Header />
 
       <Workspace />
+      <div></div>
     </MainLayout>
   );
 }
