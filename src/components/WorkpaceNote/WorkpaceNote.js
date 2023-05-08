@@ -1,4 +1,6 @@
 import { useNote } from 'hooks/noteContext';
+import { formatDateTitleNote } from 'helpers/formatDateTime';
+
 import {
   WrapWorkpaceNote,
   WrapContent,
@@ -12,10 +14,18 @@ const WorkpaceNote = () => {
 
   return (
     <WrapWorkpaceNote>
-      <TitleDate>{currentNote.date}</TitleDate>
+      <TitleDate>{formatDateTitleNote(currentNote.date)}</TitleDate>
       <WrapContent>
-        <Title type="text" value={currentNote.tilte} />
-        <Content type="text" value={currentNote.content} />
+        <Title
+          type="text"
+          value={currentNote.tilte}
+          disabled={!currentNote.editing}
+        />
+        <Content
+          type="text"
+          value={currentNote.content}
+          disabled={!currentNote.editing}
+        />
       </WrapContent>
     </WrapWorkpaceNote>
   );

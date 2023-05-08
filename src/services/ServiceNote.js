@@ -1,4 +1,6 @@
-const listNotes = [
+import { nanoid } from 'nanoid';
+
+let listNotes = [
   {
     id: 1,
     tilte: '1 Velit est cupidatat',
@@ -20,8 +22,10 @@ const listNotes = [
   },
 ];
 
+// TODO Not write to bases field "editing" !!!!!!!!!!!!!
 const ServiceNote = class {
   readNotes = async filter => {
+    // * Read from DataBases
     const upperFilter = filter.toUpperCase();
 
     const filtersListNotes = listNotes.filter(note =>
@@ -29,6 +33,26 @@ const ServiceNote = class {
     );
 
     return filtersListNotes;
+  };
+
+  deleteNote = async idNote => {
+    // * delete note in DataBases
+    listNotes = listNotes.filter(note => note.id !== idNote);
+
+    // throw new Error('Error delete note');
+  };
+
+  addNote = async () => {
+    const newElement = {
+      id: nanoid(),
+      tilte: '',
+      content: '',
+      date: Date.now(),
+    };
+    listNotes.push(newElement);
+    return newElement;
+
+    // throw new Error('Error add note');
   };
 };
 

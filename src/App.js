@@ -9,6 +9,8 @@ function App() {
       <Header />
 
       <Workspace />
+      {/* next div necessary  for to stretch the window 
+      to the full height of the screen  */}
       <div></div>
     </MainLayout>
   );

@@ -11,6 +11,8 @@ export const NoteProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
   const [currentNote, setCurrentNote] = useState(null);
   const [filter, setFilter] = useState('');
+  // When delete note in list notes, countChangeNotes increase and rerenderin listNotes
+  const [countDeleteNotes, setCountDeleteNotes] = useState(0);
 
   useEffect(() => {
     const loadNotes = async () => {
@@ -20,12 +22,38 @@ export const NoteProvider = ({ children }) => {
     };
 
     loadNotes();
-  }, [filter]);
+  }, [filter, countDeleteNotes]);
 
-  const addNote = () => {};
-  const deleteNote = note => {};
+  // * Handler button ADD note
+  const addNote = async () => {
+    try {
+      const newElement = await serviceNote.addNote();
+      newElement.editing = true;
+
+      const listNotes = await serviceNote.readNotes(filter);
+      setNotes(listNotes);
+      setCurrentNote(newElement);
+    } catch {
+      alert('Error add note');
+    }
+  };
+
+  // * Handler button DELETE note
+  const deleteNote = async note => {
+    if (!note) return;
+
+    try {
+      await serviceNote.deleteNote(note.id);
+      setCountDeleteNotes(prev => prev + 1);
+    } catch {
+      alert('Error delete note');
+    }
+  };
+
+  // * Handler button EDITING note
   const editNote = note => {
-    // if (f nb yt )
+    if (!currentNote) return;
+    setCurrentNote(prev => ({ ...prev, editing: !prev.editing }));
   };
 
   return (

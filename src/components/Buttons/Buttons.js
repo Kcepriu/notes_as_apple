@@ -3,6 +3,7 @@ import { ListButtons, Button } from './Buttons.styled';
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import { GoPlus } from 'react-icons/go';
+import { Colors } from 'constants/constantsStyle';
 
 const Buttons = () => {
   const { currentNote, addNote, deleteNote, editNote } = useNote();
@@ -39,7 +40,10 @@ const Buttons = () => {
 
       <li>
         <Button type="button" disabled={!currentNote} onClick={handlerEdit}>
-          <FaEdit size={24} />
+          <FaEdit
+            size={24}
+            color={currentNote?.editing ? Colors.colorIconButtonOn : null}
+          />
         </Button>
       </li>
     </ListButtons>

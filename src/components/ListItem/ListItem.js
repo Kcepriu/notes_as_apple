@@ -1,5 +1,5 @@
 import { useNote } from 'hooks/noteContext';
-
+import { formatDateNote } from 'helpers/formatDateTime';
 import { List, Item } from './ListItem.styled';
 
 const ListItem = () => {
@@ -17,7 +17,7 @@ const ListItem = () => {
             onClick={() => setCurrentNote(note)}
           >
             <h3>{note.tilte}</h3>
-            <p>{note.date}</p>
+            <p>{formatDateNote(note.date)}</p>
             <p>{note.content}</p>
           </Item>
         ))}
