@@ -1,9 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import ServiceNote from 'services/ServiceNote';
+import serviceNote from 'services/ServiceNote';
 
 const NoteContext = createContext();
-
-const serviceNote = new ServiceNote();
 
 export const useNote = () => useContext(NoteContext);
 
@@ -11,8 +9,6 @@ export const NoteProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
   const [currentNote, setCurrentNote] = useState(null);
   const [filter, setFilter] = useState('');
-  // When delete note in list notes, countChangeNotes increase and rerenderin listNotes
-  const [countDeleteNotes, setCountDeleteNotes] = useState(0);
 
   useEffect(() => {
     const loadNotes = async () => {
@@ -22,7 +18,24 @@ export const NoteProvider = ({ children }) => {
     };
 
     loadNotes();
-  }, [filter, countDeleteNotes]);
+  }, [filter]);
+
+  // * Save editing note
+  useEffect(() => {
+    if (!currentNote?.toSave) return;
+
+    const startSaveNote = async () => {
+      try {
+        await serviceNote.saveNote(currentNote);
+        const listNotes = await serviceNote.readNotesFromCache();
+        setNotes(listNotes);
+      } catch {
+        alert('Error saved note');
+      }
+    };
+
+    startSaveNote();
+  }, [currentNote]);
 
   // * Handler button ADD note
   const addNote = async () => {
@@ -30,8 +43,9 @@ export const NoteProvider = ({ children }) => {
       const newElement = await serviceNote.addNote();
       newElement.editing = true;
 
-      const listNotes = await serviceNote.readNotes(filter);
+      const listNotes = await serviceNote.readNotesFromCache();
       setNotes(listNotes);
+
       setCurrentNote(newElement);
     } catch {
       alert('Error add note');
@@ -44,7 +58,11 @@ export const NoteProvider = ({ children }) => {
 
     try {
       await serviceNote.deleteNote(note.id);
-      setCountDeleteNotes(prev => prev + 1);
+
+      const listNotes = await serviceNote.readNotesFromCache();
+      setNotes(listNotes);
+
+      setCurrentNote(null);
     } catch {
       alert('Error delete note');
     }

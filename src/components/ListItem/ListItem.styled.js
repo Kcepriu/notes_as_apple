@@ -10,8 +10,7 @@ export const List = styled.ul`
   margin: 0;
   gap: 10px;
   height: 100%;
-  /* border-right: s4px solid red; */
-  outline: 1px solid red;
+  /* outline: 1px solid red; */
 `;
 
 export const Item = styled.li`
@@ -24,4 +23,12 @@ export const Item = styled.li`
   &.Current {
     background-color: ${Colors.bacgroundCurentNote};
   }
+`;
+
+export const Content = styled.p`
+  /* font-weight: bold; */
+`;
+
+export const TimeNote = styled.span`
+  font-weight: bold;
 `;
