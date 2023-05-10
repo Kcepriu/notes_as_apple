@@ -11,9 +11,11 @@ export const NoteProvider = ({ children }) => {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const loadNotes = async () => {
       try {
-        const listNotes = await serviceNote.readNotes(filter);
+        const listNotes = await serviceNote.readNotes(filter, controller);
         setCurrentNote(null);
         setNotes(listNotes);
       } catch (err) {
@@ -23,6 +25,10 @@ export const NoteProvider = ({ children }) => {
     };
 
     loadNotes();
+
+    return () => {
+      controller.abort();
+    };
   }, [filter]);
 
   // * Save editing note

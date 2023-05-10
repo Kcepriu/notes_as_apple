@@ -28,18 +28,26 @@ const WorkpaceNote = () => {
     setIdCurentNote(currentNote.id);
   }, [idCurentNote, currentNote]);
 
-  const debouncedSaveNote = useDebouncedCallback((title, value) => {
-    setCurrentNote(prev => ({ ...prev, [title]: value, toSave: true }));
+  const saveNote = (field, value) => {
+    setCurrentNote(prev => ({ ...prev, [field]: value, toSave: true }));
+  };
+
+  const debouncedSaveNote = useDebouncedCallback((field, value) => {
+    saveNote(field, value);
   }, 1000);
 
-  const handkerChangeTile = event => {
+  const handlerChangeTile = event => {
     setTitle(event.target.value);
     debouncedSaveNote('title', event.target.value);
   };
 
-  const handkerChangeContent = event => {
+  const handlerChangeContent = event => {
     setContent(event.target.value);
     debouncedSaveNote('content', event.target.value);
+  };
+
+  const handlerBlur = event => {
+    saveNote(event.target.name, event.target.value);
   };
 
   return (
@@ -48,18 +56,22 @@ const WorkpaceNote = () => {
       <WrapContent>
         <Title
           autoFocus={true}
+          name="title"
           type="text"
           placeholder="Please write here title"
           value={title}
           disabled={!currentNote.editing}
-          onChange={handkerChangeTile}
+          onChange={handlerChangeTile}
+          onBlur={handlerBlur}
         />
         <Content
+          name="content"
           type="text"
           placeholder="Please write here content"
           value={content}
           disabled={!currentNote.editing}
-          onChange={handkerChangeContent}
+          onChange={handlerChangeContent}
+          onBlur={handlerBlur}
         />
       </WrapContent>
     </WrapWorkpaceNote>

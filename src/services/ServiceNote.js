@@ -12,11 +12,11 @@ const ServiceNote = class {
     this.providerDB = providerDB;
   }
 
-  readNotes = async filter => {
+  readNotes = async (filter, controller) => {
     // * Read from DataBases
     const upperFilter = filter.toUpperCase();
 
-    this.#cacheNotes = await this.providerDB.readNotes(upperFilter);
+    this.#cacheNotes = await this.providerDB.readNotes(upperFilter, controller);
 
     return [...this.#cacheNotes];
   };
