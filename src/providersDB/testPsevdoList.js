@@ -36,13 +36,8 @@ const ProviderPsevdoList = class {
     this.listNotes.filter(note => note.id !== idNote);
   };
 
-  addNote = async () => {
-    const newElement = {
-      id: nanoid(),
-      title: '',
-      content: '',
-      date: Date.now(),
-    };
+  addNote = async newElement => {
+    newElement.id = nanoid();
 
     this.listNotes.push(newElement);
 

@@ -12,9 +12,14 @@ export const NoteProvider = ({ children }) => {
 
   useEffect(() => {
     const loadNotes = async () => {
-      const listNotes = await serviceNote.readNotes(filter);
-      setCurrentNote(null);
-      setNotes(listNotes);
+      try {
+        const listNotes = await serviceNote.readNotes(filter);
+        setCurrentNote(null);
+        setNotes(listNotes);
+      } catch (err) {
+        console.log(err);
+        // alert('Error getting data');
+      }
     };
 
     loadNotes();
@@ -29,7 +34,9 @@ export const NoteProvider = ({ children }) => {
         await serviceNote.saveNote(currentNote);
         const listNotes = await serviceNote.readNotesFromCache();
         setNotes(listNotes);
-      } catch {
+      } catch (err) {
+        console.log(err.message);
+
         alert('Error saved note');
       }
     };
@@ -47,7 +54,8 @@ export const NoteProvider = ({ children }) => {
       setNotes(listNotes);
 
       setCurrentNote(newElement);
-    } catch {
+    } catch (err) {
+      console.log(err.message);
       alert('Error add note');
     }
   };
@@ -63,7 +71,8 @@ export const NoteProvider = ({ children }) => {
       setNotes(listNotes);
 
       setCurrentNote(null);
-    } catch {
+    } catch (err) {
+      console.log(err.message);
       alert('Error delete note');
     }
   };

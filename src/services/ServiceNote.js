@@ -1,4 +1,9 @@
+import { newNote, fieldNeedSave } from 'constants/constantNote';
+import pick from 'lodash.pick';
+
 import ProviderPsevdoList from 'providersDB/testPsevdoList';
+import ProviderIndexedDB from 'providersDB/providerIndexedDB';
+import ProviderQuintadDB from 'providersDB/providerQuintadDB';
 
 const ServiceNote = class {
   #cacheNotes = [];
@@ -31,7 +36,7 @@ const ServiceNote = class {
 
   addNote = async () => {
     // * 1 Add to databases
-    const newElement = await this.providerDB.addNote();
+    const newElement = await this.providerDB.addNote(newNote);
     // * 2 Change cache
     this.#cacheNotes.push(newElement);
 
@@ -39,8 +44,10 @@ const ServiceNote = class {
   };
 
   saveNote = async note => {
+    const saveNote = pick(note, fieldNeedSave);
+
     // * 1 Save info to databases
-    const saveElement = await this.providerDB.saveNote(note);
+    const saveElement = await this.providerDB.saveNote(saveNote);
     // * 2 Change cache
     const index = this.#cacheNotes.findIndex(element => element.id === note.id);
 
@@ -55,6 +62,23 @@ const ServiceNote = class {
   };
 };
 
-const serviceNote = new ServiceNote(new ProviderPsevdoList());
+const typeProvider = process.env.REACT_APP_PROVIDER_DB_NOTE_APP;
+
+let tmpServiceNote;
+
+switch (typeProvider) {
+  case 'testList':
+    tmpServiceNote = new ServiceNote(new ProviderPsevdoList());
+    break;
+
+  case 'quintadb':
+    tmpServiceNote = new ServiceNote(new ProviderQuintadDB());
+    break;
+
+  default:
+    tmpServiceNote = new ServiceNote(new ProviderIndexedDB());
+}
+
+const serviceNote = tmpServiceNote;
 
 export default serviceNote;
