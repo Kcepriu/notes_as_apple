@@ -18,7 +18,7 @@ export const formatDateNoteNoToday = date => {
   if (!date) return;
   const newDate = Number(date);
 
-  return format(newDate, 'M/d/YY');
+  return format(newDate, 'M/d/yy');
 };
 
 export const formatDateNote = date => {

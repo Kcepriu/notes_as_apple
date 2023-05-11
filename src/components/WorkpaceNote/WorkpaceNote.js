@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNote } from 'hooks/noteContext';
 import { formatDateTitleNote } from 'helpers/formatDateTime';
 import { useDebouncedCallback } from 'use-debounce';
@@ -18,6 +18,8 @@ const WorkpaceNote = () => {
   const [content, setContent] = useState('');
   const [idCurentNote, setIdCurentNote] = useState(null);
 
+  const refTitleNote = useRef();
+
   useEffect(() => {
     //Start Initial variables
     if (idCurentNote === currentNote.id) return;
@@ -27,6 +29,13 @@ const WorkpaceNote = () => {
 
     setIdCurentNote(currentNote.id);
   }, [idCurentNote, currentNote]);
+
+  // * Set focus on Input title
+  useEffect(() => {
+    if (!currentNote.editing) return;
+
+    refTitleNote.current.focus();
+  }, [currentNote.editing]);
 
   const saveNote = (field, value) => {
     setCurrentNote(prev => ({ ...prev, [field]: value, toSave: true }));
@@ -55,7 +64,8 @@ const WorkpaceNote = () => {
       <TitleDate>{formatDateTitleNote(currentNote.date)}</TitleDate>
       <WrapContent>
         <Title
-          autoFocus={true}
+          ref={refTitleNote}
+          autoFocus
           name="title"
           type="text"
           placeholder="Please write here title"

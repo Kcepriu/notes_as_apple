@@ -1,3 +1,4 @@
+import { Colors } from 'constants/constantsStyle';
 import styled from 'styled-components';
 
 export const WrapWorkpaceNote = styled.div`
@@ -5,16 +6,17 @@ export const WrapWorkpaceNote = styled.div`
   padding-left: 8px;
   display: flex;
   flex-direction: column;
-
-  outline: 1px solid red;
 `;
 
 export const TitleDate = styled.p`
+  display: block;
   text-align: center;
 
-  font-size: 24px;
-  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: ${Colors.colorGray};
 
+  margin-top: 8px;
   margin-bottom: 10px;
 `;
 

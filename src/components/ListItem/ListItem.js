@@ -1,6 +1,6 @@
 import { useNote } from 'hooks/noteContext';
 import { formatDateNote } from 'helpers/formatDateTime';
-import { List, Item, Content, TimeNote } from './ListItem.styled';
+import { List, Item, Content, TimeNote, TitleNote } from './ListItem.styled';
 
 const ListItem = () => {
   const { notes, currentNote, setCurrentNote } = useNote();
@@ -13,7 +13,7 @@ const ListItem = () => {
           className={currentNote && note.id === currentNote.id ? 'Current' : ''}
           onClick={() => setCurrentNote(note)}
         >
-          <h3>{note.title ? note.title : 'No title'}</h3>
+          <TitleNote>{note.title ? note.title : 'No title'}</TitleNote>
           <Content>
             <TimeNote> {formatDateNote(note.date)}</TimeNote>
             {' ' + note.content}

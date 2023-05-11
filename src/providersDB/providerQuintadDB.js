@@ -102,12 +102,16 @@ const ProviderQuintadDB = class {
   };
 
   saveNote = async note => {
-    const updateNote = await ApiDB.addRecord(
+    const codeNote = this.codeNote(note);
+    const updateNote = await ApiDB.updateRecord(
       this.#CONFIG_CONNECT,
       note.id,
-      note
+      codeNote
     );
-    return updateNote;
+
+    const decodeNote = this.decodeNote(updateNote);
+
+    return decodeNote;
   };
 
   codeNote(note) {

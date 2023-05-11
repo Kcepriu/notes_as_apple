@@ -1,7 +1,7 @@
 import { useNote } from 'hooks/noteContext';
-// import { BiSearchAlt2 } from 'react-icons/bi';
+import { IconSearch } from './SearchBox.styled';
 
-import { Search } from './SearchBox.styled';
+import { Search, WrapSearch } from './SearchBox.styled';
 const SearchBox = () => {
   const { filter, setFilter } = useNote();
 
@@ -11,14 +11,15 @@ const SearchBox = () => {
   };
 
   return (
-    <>
+    <WrapSearch>
+      {filter === '' && <IconSearch />}
       <Search
         type="text"
         placeholder="Search"
         value={filter}
         onChange={handlerFilters}
       />
-    </>
+    </WrapSearch>
   );
 };
 

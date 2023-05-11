@@ -6,4 +6,5 @@ export const Colors = {
 
   colorIconButton: '#424242',
   colorIconButtonOn: '#757575',
+  colorGray: '#BDBDBD',
 };

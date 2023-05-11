@@ -142,7 +142,22 @@ export const addRecord = async (config, newRecord) => {
   return data.record;
 };
 
-export const updateRecord = async (config, id, data) => {};
+export const updateRecord = async (config, id, updateRecord) => {
+  const { data } = await axios.put(
+    `/apps/${config.idDatabase}/dtypes/${id}.json`,
+    {
+      rest_api_key: config.key,
+      json_values: JSON.stringify(updateRecord),
+    },
+    {
+      baseURL: URL,
+    }
+  );
+
+  if (data.error) throw new Error('Error save record');
+
+  return data.record;
+};
 
 export const getFields = async config => {
   const { data } = await axios.get(
