@@ -1,6 +1,14 @@
+import { newNote } from '../constants/constantNote';
+
 import * as ApiDB from 'services/apiQuintadDB';
 
 const KEY = process.env.REACT_APP_KEY_QUINTAD_DB;
+
+// "id": "ddQ8kJW5bdVAlcPmksDCka",
+// "app_id": "a-W7ZdR8nfWRNcSw7dJSow",
+
+// /apps/a-W7ZdR8nfWRNcSw7dJSow/dtypes/entity/ddQ8kJW5bdVAlcPmksDCka.json
+// 1683722801714
 
 const NAME_DATABASE = 'NotesDB';
 const NAME_FORM = 'Notes';
@@ -73,7 +81,9 @@ const ProviderQuintadDB = class {
 
     const listNotes = await ApiDB.getAllRecords(this.#CONFIG_CONNECT);
 
-    return listNotes.filter(note =>
+    const decodeListNote = listNotes.map(note => this.decodeNote(note));
+
+    return decodeListNote.filter(note =>
       note.content.toUpperCase().includes(filter)
     );
   };
@@ -85,13 +95,10 @@ const ProviderQuintadDB = class {
   addNote = async newNote => {
     const codeNote = this.codeNote(newNote);
     const newElement = await ApiDB.addRecord(this.#CONFIG_CONNECT, codeNote);
-    //TODO ВИдалити зайві поля
-    console.log('decode', this.codeNote(newElement));
 
-    console.log(newElement);
-    console.log(this.#CODE_DECODE);
+    const decodeNote = this.decodeNote(newElement);
 
-    return this.codeNote(newElement);
+    return decodeNote;
   };
 
   saveNote = async note => {
@@ -113,6 +120,13 @@ const ProviderQuintadDB = class {
 
     return result;
   }
+
+  decodeNote = note => {
+    const decodeValue = this.codeNote(note.values);
+
+    const result = { ...newNote, id: note.id, ...decodeValue };
+    return result;
+  };
 };
 
 export default ProviderQuintadDB;

@@ -1,26 +1,41 @@
 import format from 'date-fns/format';
 
 export const formatDateTitleNote = date => {
-  return format(date, "MMM  dd, YYY 'at' hh:mm a");
+  if (!date) return;
+  const newDate = Number(date);
+
+  return format(newDate, "MMM  dd, YYY 'at' hh:mm a");
 };
 
 export const formatDateNoteToday = date => {
-  return format(date, 'hh:mm a');
+  if (!date) return;
+  const newDate = Number(date);
+
+  return format(newDate, 'hh:mm a');
 };
 
 export const formatDateNoteNoToday = date => {
-  return format(date, 'M/d/YY');
+  if (!date) return;
+  const newDate = Number(date);
+
+  return format(newDate, 'M/d/YY');
 };
 
 export const formatDateNote = date => {
+  if (!date) return;
+  const newDate = Number(date);
+
   const result =
-    startDay(date) === startDay(Date.now())
-      ? formatDateNoteToday(date)
-      : formatDateNoteNoToday(date);
+    startDay(newDate) === startDay(Date.now())
+      ? formatDateNoteToday(newDate)
+      : formatDateNoteNoToday(newDate);
   return result;
 };
 
 const startDay = numberDate => {
-  const start = new Date(numberDate);
+  if (!numberDate) return;
+  const newDate = Number(numberDate);
+
+  const start = new Date(newDate);
   return start.setHours(0, 0, 0, 0);
 };

@@ -107,7 +107,6 @@ export const getAllRecords = async config => {
       params: {
         rest_api_key: config.key,
         page: 1,
-        name_value: 1,
       },
     }
   );
@@ -116,21 +115,16 @@ export const getAllRecords = async config => {
 };
 
 export const deleteRecords = async (config, id) => {
-  await axios.delete(
-    `/apps/${config.idDatabase}/dtypes/${id}.json`,
-    {
+  await axios.delete(`/apps/${config.idDatabase}/dtypes/${id}.json`, {
+    baseURL: URL,
+    params: {
       rest_api_key: config.key,
     },
-    {
-      baseURL: URL,
-    }
-  );
+  });
 };
 
 export const addRecord = async (config, newRecord) => {
   const copyNewRecord = { ...newRecord, entity_id: config.idForm };
-
-  console.log(JSON.stringify(copyNewRecord));
 
   const { data } = await axios.post(
     `/apps/${config.idDatabase}/dtypes.json`,
@@ -142,8 +136,6 @@ export const addRecord = async (config, newRecord) => {
       baseURL: URL,
     }
   );
-
-  console.log(data);
 
   if (data.error) throw new Error('Error add record');
 
