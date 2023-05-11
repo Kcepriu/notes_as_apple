@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/notes_as_apple/static/css/main.a01b702c.css",
+    "main.js": "/notes_as_apple/static/js/main.97b76f09.js",
+    "index.html": "/notes_as_apple/index.html",
+    "main.a01b702c.css.map": "/notes_as_apple/static/css/main.a01b702c.css.map",
+    "main.97b76f09.js.map": "/notes_as_apple/static/js/main.97b76f09.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a01b702c.css",
+    "static/js/main.97b76f09.js"
+  ]
+}
